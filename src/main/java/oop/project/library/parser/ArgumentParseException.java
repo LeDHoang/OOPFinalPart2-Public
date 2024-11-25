@@ -1,6 +1,6 @@
 package oop.project.library.parser;
 
-public class ArgumentParseException {
+public class ArgumentParseException extends Exception {
     public ArgumentParseException(String message) {
         super(message);
     }
