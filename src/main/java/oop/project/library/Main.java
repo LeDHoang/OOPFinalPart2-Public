@@ -84,6 +84,7 @@ public class Main {
         // Search Command
         Command searchCommand = new Command("search")
                 .addArgument("term", new StringParser(), true, false)
+                .addArgument("second_term", new StringParser(), false, false)
                 .addArgument("case-insensitive", new BooleanParser(), false, true);
         commandManager.registerCommand(searchCommand);
 
@@ -180,6 +181,11 @@ public class Main {
         Boolean caseInsensitive = (Boolean) arguments.get("case-insensitive");
         if (caseInsensitive == null) {
             caseInsensitive = false;
+        }
+        // Check if a second term is provided
+        String secondTerm = (String) arguments.get("second_term");
+        if (secondTerm != null) {
+            throw new IllegalArgumentException("Error: search command should only have one term, but a second term was provided.");
         }
         System.out.println("Searching for '" + term + "' with case-insensitive set to " + caseInsensitive);
         // Implement your search logic here
