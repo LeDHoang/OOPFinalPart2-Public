@@ -1,30 +1,100 @@
-package oop.project.library;
+package oop.project.library.scenarios;
 
-import oop.project.library.scenarios.Result;
-import oop.project.library.scenarios.Scenarios;
+import oop.project.library.command.Command;
+import oop.project.library.command.CommandManager;
+import oop.project.library.parser.*;
 
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        var scanner = new Scanner(System.in);
+        // Initialize Command Manager
+        CommandManager commandManager = new CommandManager();
+
+        // Define Commands
+        defineCommands(commandManager);
+
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            var input = scanner.nextLine();
+            System.out.print("Enter command: ");
+            String input = scanner.nextLine();
+
             if (input.equals("exit")) {
                 break;
             }
-            try {
-                var result = Scenarios.parse(input);
-                switch (result) {
-                    case Result.Success<Map<String, Object>> success -> System.out.println(success.value());
-                    case Result.Failure<Map<String, Object>> failure -> System.out.println("Error: " + failure.error());
-                    default -> throw new IllegalStateException("Unexpected result type: " + result.getClass().getName());
+
+            // Split input into command name and arguments
+            String[] parts = input.trim().split("\\s+", 2);
+            String commandName = parts[0];
+            String arguments = parts.length > 1 ? parts[1] : "";
+
+            Command command = commandManager.getCommand(commandName);
+
+            if (command != null) {
+                try {
+                    Map<String, Object> result = command.parse(arguments);
+                    System.out.println("Parsed arguments: " + result);
+
+                    // Execute command logic
+                    executeCommand(commandName, result);
+                } catch (Exception e) {
+                    System.out.println("Error parsing command: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                System.out.println("Unexpected exception: " + e.getClass().getName() + ", " + e.getMessage());
+            } else {
+                System.out.println("Unknown command: " + commandName);
             }
+        }
+    }
+
+    private static void defineCommands(CommandManager commandManager) {
+        // FizzBuzz Command
+        Command fizzBuzzCommand = new Command("fizzbuzz")
+                .addArgument("number", new RangeParser(1, 100), true, false); // Positional required argument
+
+        // Difficulty Command
+        Command difficultyCommand = new Command("setDifficulty")
+                .addArgument("level", new ChoiceParser(Set.of("easy", "normal", "hard", "peaceful")), true, false); // Positional required argument
+
+        // Echo Command
+        Command echoCommand = new Command("echo")
+                .addArgument("message", new StringParser(), false, false); // Optional positional argument
+
+        // Register Commands
+        commandManager.registerCommand(fizzBuzzCommand);
+        commandManager.registerCommand(difficultyCommand);
+        commandManager.registerCommand(echoCommand);
+
+        // Add more commands as needed
+    }
+
+    private static void executeCommand(String commandName, Map<String, Object> arguments) {
+        switch (commandName) {
+            case "fizzbuzz":
+                int number = (Integer) arguments.get("number");
+                for (int i = 1; i <= number; i++) {
+                    if (i % 15 == 0) {
+                        System.out.println("FizzBuzz");
+                    } else if (i % 3 == 0) {
+                        System.out.println("Fizz");
+                    } else if (i % 5 == 0) {
+                        System.out.println("Buzz");
+                    } else {
+                        System.out.println(i);
+                    }
+                }
+                break;
+            case "setDifficulty":
+                String level = (String) arguments.get("level");
+                System.out.println("Difficulty set to: " + level);
+                break;
+            case "echo":
+                String message = (String) arguments.get("message");
+                System.out.println(message != null ? message : "");
+                break;
+            default:
+                System.out.println("Command execution not implemented for: " + commandName);
+                break;
         }
     }
 }
