@@ -70,12 +70,14 @@ public class Main {
 
         // FizzBuzz Command
         Command fizzBuzzCommand = new Command("fizzbuzz")
-                .addArgument("number", new IntegerParser(), true, false);
+                .addArgument("number", new IntegerParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(fizzBuzzCommand);
 
         // Difficulty Command
         Command difficultyCommand = new Command("difficulty")
-                .addArgument("difficulty", new StringParser(), true, false);
+                .addArgument("difficulty", new StringParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(difficultyCommand);
 
         // Echo Command
@@ -129,7 +131,6 @@ public class Main {
     // Command execution methods
 
     private static void executeAddCommand(Map<String, Object> arguments) {
-        // Check if a third term is provided
         String third = (String) arguments.get("third");
         if (third != null) {
             throw new IllegalArgumentException("Error: add command should only have two terms, but a third term was provided.");
@@ -141,7 +142,6 @@ public class Main {
     }
 
     private static void executeSubCommand(Map<String, Object> arguments) {
-        // Check if a third term is provided
         String third = (String) arguments.get("third");
         if (third != null) {
             throw new IllegalArgumentException("Error: sub command should only have two terms, but a third term was provided.");
@@ -153,6 +153,10 @@ public class Main {
     }
 
     private static void executeFizzBuzzCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: fizzbuzz command should only have one term, but a second term was provided.");
+        }
         int number = (Integer) arguments.get("number");
         if (number < 1 || number > 100) {
             System.out.println("Error: Number must be between 1 and 100.");
@@ -172,6 +176,10 @@ public class Main {
     }
 
     private static void executeDifficultyCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: difficulty command should only have one term, but a second term was provided.");
+        }
         String difficulty = (String) arguments.get("difficulty");
         Set<String> validDifficulties = Set.of("easy", "normal", "hard", "peaceful");
         if (!validDifficulties.contains(difficulty.toLowerCase())) {
