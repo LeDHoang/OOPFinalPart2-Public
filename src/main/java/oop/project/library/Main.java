@@ -57,13 +57,15 @@ public class Main {
         // Add Command
         Command addCommand = new Command("add")
                 .addArgument("left", new IntegerParser(), true, false)
-                .addArgument("right", new IntegerParser(), true, false);
+                .addArgument("right", new IntegerParser(), true, false)
+                .addArgument("third", new StringParser(), false, false);
         commandManager.registerCommand(addCommand);
 
         // Sub Command
         Command subCommand = new Command("sub")
                 .addArgument("left", new DoubleParser(), true, true)
-                .addArgument("right", new DoubleParser(), true, true);
+                .addArgument("right", new DoubleParser(), true, true)
+                .addArgument("third", new StringParser(), false, false);
         commandManager.registerCommand(subCommand);
 
         // FizzBuzz Command
@@ -84,13 +86,14 @@ public class Main {
         // Search Command
         Command searchCommand = new Command("search")
                 .addArgument("term", new StringParser(), true, false)
-                .addArgument("second_term", new StringParser(), false, false)
+                .addArgument("second", new StringParser(), false, false)
                 .addArgument("case-insensitive", new BooleanParser(), false, true);
         commandManager.registerCommand(searchCommand);
 
         // Weekday Command
         Command weekdayCommand = new Command("weekday")
-                .addArgument("date", new LocalDateParser(), true, false);
+                .addArgument("date", new LocalDateParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(weekdayCommand);
     }
 
@@ -126,6 +129,11 @@ public class Main {
     // Command execution methods
 
     private static void executeAddCommand(Map<String, Object> arguments) {
+        // Check if a third term is provided
+        String third = (String) arguments.get("third");
+        if (third != null) {
+            throw new IllegalArgumentException("Error: add command should only have two terms, but a third term was provided.");
+        }
         int left = (Integer) arguments.get("left");
         int right = (Integer) arguments.get("right");
         int result = left + right;
@@ -133,6 +141,11 @@ public class Main {
     }
 
     private static void executeSubCommand(Map<String, Object> arguments) {
+        // Check if a third term is provided
+        String third = (String) arguments.get("third");
+        if (third != null) {
+            throw new IllegalArgumentException("Error: sub command should only have two terms, but a third term was provided.");
+        }
         double left = (Double) arguments.get("left");
         double right = (Double) arguments.get("right");
         double result = left - right;
@@ -177,21 +190,24 @@ public class Main {
     }
 
     private static void executeSearchCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: search command should only have one term, but a second term was provided.");
+        }
         String term = (String) arguments.get("term");
         Boolean caseInsensitive = (Boolean) arguments.get("case-insensitive");
         if (caseInsensitive == null) {
             caseInsensitive = false;
-        }
-        // Check if a second term is provided
-        String secondTerm = (String) arguments.get("second_term");
-        if (secondTerm != null) {
-            throw new IllegalArgumentException("Error: search command should only have one term, but a second term was provided.");
         }
         System.out.println("Searching for '" + term + "' with case-insensitive set to " + caseInsensitive);
         // Implement your search logic here
     }
 
     private static void executeWeekdayCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: weekday command should only have one term, but a second term was provided.");
+        }
         LocalDate date = (LocalDate) arguments.get("date");
         System.out.println("The day of the week is: " + date.getDayOfWeek());
     }
