@@ -57,23 +57,27 @@ public class Main {
         // Add Command
         Command addCommand = new Command("add")
                 .addArgument("left", new IntegerParser(), true, false)
-                .addArgument("right", new IntegerParser(), true, false);
+                .addArgument("right", new IntegerParser(), true, false)
+                .addArgument("third", new StringParser(), false, false);
         commandManager.registerCommand(addCommand);
 
         // Sub Command
         Command subCommand = new Command("sub")
                 .addArgument("left", new DoubleParser(), true, true)
-                .addArgument("right", new DoubleParser(), true, true);
+                .addArgument("right", new DoubleParser(), true, true)
+                .addArgument("third", new StringParser(), false, false);
         commandManager.registerCommand(subCommand);
 
         // FizzBuzz Command
         Command fizzBuzzCommand = new Command("fizzbuzz")
-                .addArgument("number", new IntegerParser(), true, false);
+                .addArgument("number", new IntegerParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(fizzBuzzCommand);
 
         // Difficulty Command
         Command difficultyCommand = new Command("difficulty")
-                .addArgument("difficulty", new StringParser(), true, false);
+                .addArgument("difficulty", new StringParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(difficultyCommand);
 
         // Echo Command
@@ -84,12 +88,14 @@ public class Main {
         // Search Command
         Command searchCommand = new Command("search")
                 .addArgument("term", new StringParser(), true, false)
+                .addArgument("second", new StringParser(), false, false)
                 .addArgument("case-insensitive", new BooleanParser(), false, true);
         commandManager.registerCommand(searchCommand);
 
         // Weekday Command
         Command weekdayCommand = new Command("weekday")
-                .addArgument("date", new LocalDateParser(), true, false);
+                .addArgument("date", new LocalDateParser(), true, false)
+                .addArgument("second", new StringParser(), false, false);
         commandManager.registerCommand(weekdayCommand);
     }
 
@@ -125,6 +131,10 @@ public class Main {
     // Command execution methods
 
     private static void executeAddCommand(Map<String, Object> arguments) {
+        String third = (String) arguments.get("third");
+        if (third != null) {
+            throw new IllegalArgumentException("Error: add command should only have two terms, but a third term was provided.");
+        }
         int left = (Integer) arguments.get("left");
         int right = (Integer) arguments.get("right");
         int result = left + right;
@@ -132,6 +142,10 @@ public class Main {
     }
 
     private static void executeSubCommand(Map<String, Object> arguments) {
+        String third = (String) arguments.get("third");
+        if (third != null) {
+            throw new IllegalArgumentException("Error: sub command should only have two terms, but a third term was provided.");
+        }
         double left = (Double) arguments.get("left");
         double right = (Double) arguments.get("right");
         double result = left - right;
@@ -139,6 +153,10 @@ public class Main {
     }
 
     private static void executeFizzBuzzCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: fizzbuzz command should only have one term, but a second term was provided.");
+        }
         int number = (Integer) arguments.get("number");
         if (number < 1 || number > 100) {
             System.out.println("Error: Number must be between 1 and 100.");
@@ -158,6 +176,10 @@ public class Main {
     }
 
     private static void executeDifficultyCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: difficulty command should only have one term, but a second term was provided.");
+        }
         String difficulty = (String) arguments.get("difficulty");
         Set<String> validDifficulties = Set.of("easy", "normal", "hard", "peaceful");
         if (!validDifficulties.contains(difficulty.toLowerCase())) {
@@ -176,6 +198,10 @@ public class Main {
     }
 
     private static void executeSearchCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: search command should only have one term, but a second term was provided.");
+        }
         String term = (String) arguments.get("term");
         Boolean caseInsensitive = (Boolean) arguments.get("case-insensitive");
         if (caseInsensitive == null) {
@@ -186,6 +212,10 @@ public class Main {
     }
 
     private static void executeWeekdayCommand(Map<String, Object> arguments) {
+        String second = (String) arguments.get("second");
+        if (second != null) {
+            throw new IllegalArgumentException("Error: weekday command should only have one term, but a second term was provided.");
+        }
         LocalDate date = (LocalDate) arguments.get("date");
         System.out.println("The day of the week is: " + date.getDayOfWeek());
     }
