@@ -3,8 +3,8 @@ package oop.project.library.command;
 
 import oop.project.library.parser.ArgumentParseException;
 import oop.project.library.parser.ArgumentParser;
-import oop.project.library.parser.Lexer;
-import oop.project.library.parser.Lexer.ParseException;
+import oop.project.library.lexer.Lexer;
+import oop.project.library.lexer.ArgumentLexerException;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class Command {
         return this;
     }
 
-    public Map<String, Object> parse(String input) throws ParseException, ArgumentParseException {
+    public Map<String, Object> parse(String input) throws ArgumentLexerException, ArgumentParseException {
         Map<String, String> tokens = Lexer.lex(input);
         Map<String, Object> parsedArguments = new LinkedHashMap<>();
 
@@ -35,8 +35,8 @@ public class Command {
             String value = null;
 
             if (arg.isNamed()) {
-                if (tokens.containsKey(arg.getName())) {
-                    value = tokens.get(arg.getName());
+                if (tokens.containsKey(arg.name())) {
+                    value = tokens.get(arg.name());
                 }
             } else {
                 if (tokens.containsKey(String.valueOf(positionalIndex))) {
@@ -46,15 +46,15 @@ public class Command {
             }
 
             if (value == null) {
-                if (arg.isRequired()) {
-                    throw new ArgumentParseException("Missing required argument: " + arg.getName());
+                if (arg.required()) {
+                    throw new ArgumentParseException("Missing required argument: " + arg.name());
                 } else {
                     continue; // Optional argument not provided
                 }
             }
 
             Object parsedValue = arg.parse(value);
-            parsedArguments.put(arg.getName(), parsedValue);
+            parsedArguments.put(arg.name(), parsedValue);
         }
 
         return parsedArguments;

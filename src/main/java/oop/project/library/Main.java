@@ -2,8 +2,10 @@ package oop.project.library;
 
 import oop.project.library.command.Command;
 import oop.project.library.command.CommandManager;
+import oop.project.library.lexer.ArgumentLexerException;
+import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.*;
-import oop.project.library.scenarios.Result;
+import oop.project.library.scenarios.LocalDateParser;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class Main {
                 try {
                     Map<String, String> tokens = Lexer.lex(arguments);
                     System.out.println("Lexed arguments: " + tokens);
-                } catch (Lexer.ParseException e) {
+                } catch (ArgumentLexerException e) {
                     System.out.println("Error during lexing: " + e.getMessage());
                 }
             } else {
