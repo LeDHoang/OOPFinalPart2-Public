@@ -1,11 +1,13 @@
-// File: oop/project/library/parser/ChoiceParser.java
 package oop.project.library.parser;
 
 import java.util.Set;
 
 public class ChoiceParser implements ArgumentParser<String> {
-
     private final Set<String> choices;
+
+    // Future Improvement:
+    // Consider making ChoiceParser generic or allow case-insensitive checks,
+    // or provide a method to supply a parser that transforms the input before checking.
 
     public ChoiceParser(Set<String> choices) {
         this.choices = choices;

@@ -1,10 +1,12 @@
-// File: oop/project/library/parser/RangeParser.java
 package oop.project.library.parser;
 
 public class RangeParser implements ArgumentParser<Integer> {
-
     private final int min;
     private final int max;
+
+    // Future Improvement:
+    // Consider a generic version of RangeParser<T> that accepts a parser function to handle
+    // different numeric types (e.g. Double, Long, etc.)
 
     public RangeParser(int min, int max) {
         this.min = min;

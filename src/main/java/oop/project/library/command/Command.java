@@ -1,10 +1,10 @@
 // File: oop/project/library/command/Command.java
 package oop.project.library.command;
 
+import oop.project.library.lexer.LexException; // Import once here
+import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.ArgumentParseException;
 import oop.project.library.parser.ArgumentParser;
-import oop.project.library.lexer.Lexer;
-import oop.project.library.lexer.ArgumentLexerException;
 
 import java.util.*;
 
@@ -22,11 +22,19 @@ public class Command {
     }
 
     public <T> Command addArgument(String name, ArgumentParser<T> parser, boolean required, boolean isNamed) {
+        // Check if argument name already exists
+        for (Argument<?> arg : arguments) {
+            if (arg.name().equals(name)) {
+                throw new IllegalArgumentException("Argument with name '" + name + "' already exists in command '" + this.name + "'");
+            }
+        }
+
         arguments.add(new Argument<>(name, parser, required, isNamed));
         return this;
     }
 
-    public Map<String, Object> parse(String input) throws ArgumentLexerException, ArgumentParseException {
+    public Map<String, Object> parse(String input) throws LexException, ArgumentParseException {
+        // Lexer.lex throws LexException
         Map<String, String> tokens = Lexer.lex(input);
         Map<String, Object> parsedArguments = new LinkedHashMap<>();
 

@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.076s</div>
+<div class="counter">0.040s</div>
 <p>duration</p>
 </div>
 </td>
@@ -77,21 +77,21 @@
 </thead>
 <tr>
 <td class="success">[1] Positives, add 1 2
-, {right=2, left=1}</td>
+, {left=1, right=2}</td>
 <td class="success">testAdd(String, String, Map)[1]</td>
-<td class="success">0.044s</td>
+<td class="success">0.020s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] Negatives, add -1 -2
-, {right=-2, left=-1}</td>
+, {left=-1, right=-2}</td>
 <td class="success">testAdd(String, String, Map)[2]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] Zeros, add 0 0
-, {right=0, left=0}</td>
+, {left=0, right=0}</td>
 <td class="success">testAdd(String, String, Map)[3]</td>
 <td class="success">0.001s</td>
 <td class="success">passed</td>
@@ -100,63 +100,63 @@
 <td class="success">[4] Non-Numeric Left, add one 2
 , null</td>
 <td class="success">testAdd(String, String, Map)[4]</td>
-<td class="success">0.003s</td>
+<td class="success">0.004s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[5] Non-Numeric Right, add 1 two
 , null</td>
 <td class="success">testAdd(String, String, Map)[5]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[6] Non-Integer Left, add 1.0 2
 , null</td>
 <td class="success">testAdd(String, String, Map)[6]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[7] Non-Integer Right, add 1 2.0
 , null</td>
 <td class="success">testAdd(String, String, Map)[7]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[8] Missing Argument, add 1
 , null</td>
 <td class="success">testAdd(String, String, Map)[8]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[9] Extraneous Argument, add 1 2 3
 , null</td>
 <td class="success">testAdd(String, String, Map)[9]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] Easy, difficulty easy
 , {difficulty=easy}</td>
 <td class="success">testDifficulty(String, String, Map)[1]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] Hardcore, difficulty hardcore
 , null</td>
 <td class="success">testDifficulty(String, String, Map)[2]</td>
-<td class="success">0.002s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] Default, echo
 , {message=Echo, echo, echo!}</td>
 <td class="success">testEcho(String, String, Map)[1]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -219,7 +219,7 @@
 <td class="success">[1] Lowercase, search apple
 , {term=apple, case-insensitive=false}</td>
 <td class="success">testSearch(String, String, Map)[1]</td>
-<td class="success">0.005s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -238,44 +238,44 @@
 </tr>
 <tr>
 <td class="success">[1] Positives, sub --left 1 --right 2.0
-, {right=2.0, left=1.0}</td>
+, {left=1.0, right=2.0}</td>
 <td class="success">testSub(String, String, Map)[1]</td>
-<td class="success">0.004s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] Negative Integer, sub --left -1 --right 2.0
-, {right=2.0, left=-1.0}</td>
+, {left=-1.0, right=2.0}</td>
 <td class="success">testSub(String, String, Map)[2]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] Negative Decimal, sub --left 1 --right -2.0
-, {right=-2.0, left=1.0}</td>
+, {left=1.0, right=-2.0}</td>
 <td class="success">testSub(String, String, Map)[3]</td>
-<td class="success">0.001s</td>
+<td class="success">0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[1] Valid, weekday 2024-10-23
 , {date=2024-10-23}</td>
 <td class="success">testWeekday(String, String, Map)[1]</td>
-<td class="success">0.006s</td>
+<td class="success">0.003s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[2] Invalid Month, weekday 2024-23-10
 , null</td>
 <td class="success">testWeekday(String, String, Map)[2]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">[3] Leap Year, weekday 2024-02-29
 , {date=2024-02-29}</td>
 <td class="success">testWeekday(String, String, Map)[3]</td>
-<td class="success">0s</td>
+<td class="success">0.001s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -295,7 +295,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.8</a> at Nov 25, 2024, 12:48:24 PM</p>
+<a href="http://www.gradle.org">Gradle 8.8</a> at Dec 12, 2024, 12:29:26 PM</p>
 </div>
 </div>
 </body>

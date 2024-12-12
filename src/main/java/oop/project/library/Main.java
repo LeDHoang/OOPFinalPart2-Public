@@ -1,22 +1,23 @@
 package oop.project.library;
 
 import oop.project.library.command.Command;
-import oop.project.library.command.CommandManager;
-import oop.project.library.lexer.ArgumentLexerException;
+import oop.project.library.lexer.LexException;
 import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.*;
 import oop.project.library.scenarios.LocalDateParser;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
 
+    private static final Map<String, Command> commands = new HashMap<>();
+
     public static void main(String[] args) {
-        CommandManager commandManager = new CommandManager();
-        defineCommands(commandManager);
+        defineCommands();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -32,21 +33,23 @@ public class Main {
             String commandName = parts[0];
             String arguments = parts.length > 1 ? parts[1] : "";
 
-            Command command = commandManager.getCommand(commandName);
+            Command command = commands.get(commandName);
 
             if (command != null) {
                 try {
                     Map<String, Object> parsedArguments = command.parse(arguments);
                     executeCommand(commandName, parsedArguments);
-                } catch (Exception e) {
+                } catch (LexException | ArgumentParseException e) {
                     System.out.println("Error executing command: " + e.getMessage());
+                } catch (RuntimeException e) {
+                    System.out.println("An unexpected error occurred: " + e.getMessage());
                 }
             } else if (commandName.equals("lex")) {
                 // Special case for lex command
                 try {
                     Map<String, String> tokens = Lexer.lex(arguments);
                     System.out.println("Lexed arguments: " + tokens);
-                } catch (ArgumentLexerException e) {
+                } catch (LexException e) {
                     System.out.println("Error during lexing: " + e.getMessage());
                 }
             } else {
@@ -55,50 +58,50 @@ public class Main {
         }
     }
 
-    private static void defineCommands(CommandManager commandManager) {
+    private static void defineCommands() {
         // Add Command
         Command addCommand = new Command("add")
                 .addArgument("left", new IntegerParser(), true, false)
                 .addArgument("right", new IntegerParser(), true, false)
                 .addArgument("third", new StringParser(), false, false);
-        commandManager.registerCommand(addCommand);
+        commands.put("add", addCommand);
 
         // Sub Command
         Command subCommand = new Command("sub")
                 .addArgument("left", new DoubleParser(), true, true)
                 .addArgument("right", new DoubleParser(), true, true)
                 .addArgument("third", new StringParser(), false, false);
-        commandManager.registerCommand(subCommand);
+        commands.put("sub", subCommand);
 
         // FizzBuzz Command
         Command fizzBuzzCommand = new Command("fizzbuzz")
                 .addArgument("number", new IntegerParser(), true, false)
                 .addArgument("second", new StringParser(), false, false);
-        commandManager.registerCommand(fizzBuzzCommand);
+        commands.put("fizzbuzz", fizzBuzzCommand);
 
         // Difficulty Command
         Command difficultyCommand = new Command("difficulty")
                 .addArgument("difficulty", new StringParser(), true, false)
                 .addArgument("second", new StringParser(), false, false);
-        commandManager.registerCommand(difficultyCommand);
+        commands.put("difficulty", difficultyCommand);
 
         // Echo Command
         Command echoCommand = new Command("echo")
                 .addArgument("message", new StringParser(), false, false);
-        commandManager.registerCommand(echoCommand);
+        commands.put("echo", echoCommand);
 
         // Search Command
         Command searchCommand = new Command("search")
                 .addArgument("term", new StringParser(), true, false)
                 .addArgument("second", new StringParser(), false, false)
                 .addArgument("case-insensitive", new BooleanParser(), false, true);
-        commandManager.registerCommand(searchCommand);
+        commands.put("search", searchCommand);
 
         // Weekday Command
         Command weekdayCommand = new Command("weekday")
                 .addArgument("date", new LocalDateParser(), true, false)
                 .addArgument("second", new StringParser(), false, false);
-        commandManager.registerCommand(weekdayCommand);
+        commands.put("weekday", weekdayCommand);
     }
 
     private static void executeCommand(String commandName, Map<String, Object> arguments) {
