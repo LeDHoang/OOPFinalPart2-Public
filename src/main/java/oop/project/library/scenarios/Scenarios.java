@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import oop.project.library.lexer.Lexer;
 import oop.project.library.parser.*;
 
 public class Scenarios {
